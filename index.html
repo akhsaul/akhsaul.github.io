@@ -1,11 +1,183 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio Ikhsan Maulana</title>
-</head>
-<body>
-    
-</body>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        background-color: seashell;
+      }
+      .identity {
+        background-color: #f7f7f7;
+      }
+      .img-placeholder {
+        height: 190px;
+        background-image: url("https://lh3.googleusercontent.com/9KWFpQt4oBwGOeAQsjkrtcY7KmBnGBNCz7gsQ1XpbTJeem7VurL9x07BAr5jPRZHPNc");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+      a {
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      <div class="card identity">
+        <div class="card-body text-center">
+          <h2 class="mb-3">Ikhsan Maulana</h2>
+          <div class="row justify-content-center">
+            <p class="w-auto">
+              <i class="bi bi-geo-alt-fill"></i>
+              Kabupaten Karawang, Jawa Barat, Indonesia
+            </p>
+            <p class="w-auto">
+              <i class="bi bi-linkedin"></i>
+              <a
+                class="link-primary link-opacity-50-hover"
+                href="https://www.linkedin.com/in/ikhsanmaulana29/"
+              >
+                in/ikhsanmaulana29
+              </a>
+            </p>
+            <p class="w-auto">
+              <i class="bi bi-github"></i>
+              <a
+                class="link-primary link-opacity-50-hover"
+                href="https://github.com/akhsaul"
+              >
+                akhsaul
+              </a>
+            </p>
+            <p class="w-auto">
+              <i class="bi bi-envelope-fill"></i>
+              <a
+                class="link-primary link-opacity-50-hover"
+                href="mailto:ikhsanmaulana384@gmail.com"
+              >
+                ikhsanmaulana384@gmail.com
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container pb-5">
+      <div class="row row-cols-1 row-cols-md-2 gy-4 justify-content-evenly">
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="img-placeholder"></div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">KaDoIn</h5>
+              <p class="card-text">
+                KaDoIn adalah aplikasi android untuk latihan bahasa inggris yang
+                dilengkapi gambar, suara, teks bahasa inggris & indonesia.
+                Dibangun menggunakan Kotlin Compose (front-end) dan PHP Laravel
+                dengan MySQL (back-end).
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="row justify-content-between">
+                <p class="mb-0 w-auto">Kotlin, Laravel, MySQL</p>
+                <p class="mb-0 w-auto">
+                  <i class="bi bi-github"></i>
+                  <a
+                    class="link-primary link-opacity-50-hover"
+                    href="https://github.com/akhsaul/KaDoIn"
+                    >Github</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="img-placeholder"></div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Dicoding Event</h5>
+              <p class="card-text">
+                Dicoding Event adalah aplikasi android untuk menjelajah,
+                menyimpan acara favorit, dan mendapatkan pengingat acara
+                Dicoding yang akan datang dengan mudah. Dibangun menggunakan
+                Kotlin Compose (front-end) dan Dicoding API.
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="row justify-content-between">
+                <p class="mb-0 w-auto">Kotlin</p>
+                <p class="mb-0 w-auto">
+                  <i class="bi bi-github"></i>
+                  <a
+                    class="link-primary link-opacity-50-hover"
+                    href="https://github.com/akhsaul/DEvent"
+                    >Github</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <div class="img-placeholder"></div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Bookshelf</h5>
+              <p class="card-text">
+                Bookshelf adalah Aplikasi web untuk mengatur koleksi buku
+                pribadi Anda. Tambah, cari, hapus, dan ubah status baca buku
+                dengan mudah. Dibangun menggunakan Javascript dan Local Storage
+                untuk penyimpanan data.
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="row justify-content-between">
+                <p class="mb-0 w-auto">Javascript</p>
+                <p class="mb-0 w-auto">
+                  <i class="bi bi-browser-chrome"></i>
+                  <a
+                    class="link-primary link-opacity-50-hover"
+                    href="https://bookshelf-app-akhsaul.netlify.app"
+                    >Demo</a
+                  >
+                  <i class="bi bi-github"></i>
+                  <a
+                    class="link-primary link-opacity-50-hover"
+                    href="https://github.com/akhsaul/Bookshelf-App"
+                    >Github</a
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <footer class="text-center bg-light py-4">
+    <p class="mb-0">&copy; 2025 Ikhsan Maulana</p>
+  </footer>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+    crossorigin="anonymous"
+  ></script>
 </html>
