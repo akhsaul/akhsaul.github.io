@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap");
+@font-face {
+  font-display: block;
+  font-family: bootstrap-icons;
+  src: url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff2?dd67030699838ea613ee6dbda90effa6")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/fonts/bootstrap-icons.woff?dd67030699838ea613ee6dbda90effa6")
+      format("woff");
+}
+
+.bi::before,
+[class*=" bi-"]::before,
+[class^="bi-"]::before {
+  display: inline-block;
+  font-family: bootstrap-icons !important;
+  font-style: normal;
+  font-weight: 400 !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -0.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bi-github::before {
+  content: "\f3ed";
+}
+
+.bi-browser-chrome::before {
+  content: "\f7d4";
+}
+
+.bi-linkedin::before {
+  content: "\f472";
+}
+
+.bi-box-arrow-up-right::before {
+  content: "\f1c5";
+}
+
+.bi-geo-alt-fill::before {
+  content: "\f3e7";
+}
+
+.bi-geo-alt::before {
+  content: "\f3e8";
+}
+
+.bi-envelope-fill::before {
+  content: "\f32c";
+}
+
+.bi-envelope-open-fill::before {
+  content: "\f32d";
+}
+
+.bi-envelope-open::before {
+  content: "\f32e";
+}
+
+.bi-envelope::before {
+  content: "\f32f";
+}

@@ -1,284 +1,341 @@
-<!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio Ikhsan Maulana</title>
+    <title>Submission Dasar Pemrograman Web</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="fav/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="fav/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="fav/favicon-16x16.png"
+    />
+    <link rel="manifest" href="fav/site.webmanifest" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI="
       crossorigin="anonymous"
     />
-    <style>
-      body {
-        background-color: seashell;
-      }
-      .identity {
-        background-color: #f7f7f7;
-      }
-      .img-placeholder {
-        height: 200px;
-        background-image: url("https://fakeimg.pl/400x200");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-      a {
-        text-decoration: none;
-      }
-    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      integrity="sha256-zzPh8NflvEInFbVSzLYGVMLOn0j0kfsjq/UlNeMBRYw="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/font.css" />
+    <link rel="stylesheet" href="css/custom.css" />
   </head>
   <body>
-    <div class="container py-5">
-      <div class="card identity">
-        <div class="card-body text-center">
-          <h2 class="mb-3">Ikhsan Maulana</h2>
-          <div class="row justify-content-center">
-            <p class="w-auto">
-              <i class="bi bi-geo-alt-fill"></i>
-              Kabupaten Karawang, Jawa Barat, Indonesia
-            </p>
-            <p class="w-auto">
-              <i class="bi bi-linkedin"></i>
-              <a
-                class="link-primary link-opacity-50-hover"
-                href="https://www.linkedin.com/in/ikhsanmaulana29/"
-              >
-                in/ikhsanmaulana29
-              </a>
-            </p>
-            <p class="w-auto">
-              <i class="bi bi-github"></i>
-              <a
-                class="link-primary link-opacity-50-hover"
-                href="https://github.com/akhsaul"
-              >
-                akhsaul
-              </a>
-            </p>
-            <p class="w-auto">
-              <i class="bi bi-envelope-fill"></i>
-              <a
-                class="link-primary link-opacity-50-hover"
-                href="mailto:ikhsanmaulana384@gmail.com"
-              >
-                ikhsanmaulana384@gmail.com
-              </a>
-            </p>
+    <header>
+      <nav>
+        <div class="container-fluid">
+          <a href="#home">
+            <img src="img/profile.jpg" alt="Ikhsan Maulana"
+          /></a>
+          <button
+            type="button"
+            data-target="#navbarHamburger"
+            aria-controls="navbarHamburger"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            id="hamburger"
+          >
+            <i class="hamburger-icon"></i>
+          </button>
+          <div class="collapse" id="navbarHamburger">
+            <div class="nav">
+              <a class="nav-link" href="#home">Home</a>
+              <a class="nav-link" href="#education">Education</a>
+              <a class="nav-link" href="#certificate">Certificate</a>
+              <a class="nav-link" href="#project">Project</a>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="container pb-5">
-      <div class="row row-cols-1 row-cols-md-2 gy-4 justify-content-evenly">
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
+      </nav>
+    </header>
+    <main>
+      <section id="home">
+        <div class="summary">
+          <h1>Ikhsan Maulana</h1>
+          <p>
+            <i>Fresh Graduate</i> yang berorientasi pada detail dan mampu
+            mempelajari konsep baru dengan cepat. Memiliki dasar yang kuat dalam
+            pengembangan perangkat lunak, termasuk
+            <i>software architecture fundamentals</i> dan
+            <i>object oriented programming</i>. Terampil dalam berbagai bahasa
+            pemrograman dan <i>framework</i> untuk beradaptasi dengan cepat
+            terhadap perkembangan teknologi. Berkomitmen untuk berkolaborasi
+            dalam tim, mencapai tujuan proyek dan memenuhi tenggat waktu secara
+            efisien.
+          </p>
+        </div>
+        <div class="profile">
+          <img src="img/profile.jpg" alt="Ikhsan Maulana" />
+        </div>
+      </section>
+      <section id="education">
+        <div class="education-content">
+          <div class="title">
+            <h1>Education</h1>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-progress">
+              <div class="timeline-fade-top"></div>
+              <div class="timeline-line"></div>
+              <div class="timeline-fade-bottom"></div>
             </div>
-            <div class="card-body">
-              <h5 class="card-title">KaDoIn</h5>
-              <p class="card-text">
-                KaDoIn adalah aplikasi android untuk latihan bahasa inggris yang
-                dilengkapi gambar, suara, teks bahasa inggris & indonesia.
-                Dibangun menggunakan Kotlin Compose (front-end) dan PHP Laravel
-                dengan MySQL (back-end).
-              </p>
+            <div class="timeline-list">
+              <div class="timeline-row">
+                <div class="timeline-space"></div>
+                <div class="timeline-circle-wrapper">
+                  <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-item">
+                  <div class="timeline-title-wrapper">
+                    <h4 class="timeline-year alternate">2020</h4>
+                    <h3 class="timeline-heading">SMK Negeri 1 Karawang</h3>
+                  </div>
+                  <p>
+                    Menyelesaikan pendidikan di bidang Rekayasa Perangkat Lunak.
+                    Berpengalaman mengembangkan game sederhana dengan Greenfoot,
+                    aplikasi desktop dengan Java Swing dan aplikasi web berbasis
+                    PHP dengan konsep CRUD.
+                  </p>
+                </div>
+              </div>
+              <div class="timeline-row">
+                <div class="timeline-item is-alternate">
+                  <div class="timeline-title-wrapper">
+                    <h4 class="timeline-year">2024</h4>
+                    <h3 class="timeline-heading">
+                      Universitas Buana Perjuangan Karawang
+                    </h3>
+                  </div>
+                  <p>
+                    Lulus dari program Sarjana Teknik Informatika. Aktif
+                    mengikuti sertifikasi di Dicoding, menjadi panitia Workshop
+                    Honeypot tentang cyber security, bergabung dengan UKM
+                    BPROTIC (UBP Robotic), serta mengembangkan proyek seperti
+                    Sentinel Spud, BrainExpert System, Congklak digital, dan API
+                    Mahasiswa dengan Laravel.
+                  </p>
+                </div>
+                <div class="timeline-circle-wrapper">
+                  <div class="timeline-circle"></div>
+                </div>
+                <div class="timeline-space"></div>
+              </div>
             </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Kotlin, Laravel, MySQL</p>
-                <p class="mb-0 w-auto">
-                  <i class="bi bi-github"></i>
+          </div>
+        </div>
+      </section>
+      <section id="certificate" class="container-fluid">
+        <div class="title">
+          <h1>Certificate</h1>
+        </div>
+        <div class="certificate-wrapper">
+          <div class="container certificate-content">
+            <div class="certificate-item">
+              <div class="card">
+                <img src="img/devops.jpg" alt="DevOps Certificate" />
+                <div class="card-body">
+                  <h5>
+                    DevOps&nbsp;<a
+                      class="bi bi-box-arrow-up-right"
+                      href="https://www.dicoding.com/certificates/2VX36QL0NXYQ"
+                      target="_blank"
+                    ></a>
+                  </h5>
+                  <h5>2023 ~ 2026</h5>
+                </div>
+              </div>
+            </div>
+            <div class="certificate-item">
+              <div class="card">
+                <img
+                  src="img/android.jpg"
+                  alt="Fundamental Aplikasi Android Certificate"
+                />
+                <div class="card-body">
+                  <h5>
+                    Fundamental Aplikasi Android&nbsp;<a
+                      class="bi bi-box-arrow-up-right"
+                      href="https://www.dicoding.com/certificates/N9ZO905K0XG5"
+                      target="_blank"
+                    ></a>
+                  </h5>
+                  <h5>2025 ~ 2028</h5>
+                </div>
+              </div>
+            </div>
+            <div class="certificate-item">
+              <div class="card">
+                <img
+                  src="img/englishscore.jpg"
+                  class="img-long"
+                  alt="EnglishScore Certificate"
+                />
+                <div class="card-body">
+                  <h5>
+                    EnglishScore&nbsp;<a
+                      class="bi bi-box-arrow-up-right"
+                      href="https://engsco.re/6d58c289"
+                      target="_blank"
+                    ></a>
+                  </h5>
+                  <h5>2024 ~ 2027</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section
+        id="project"
+        class="container-fluid"
+        data-projects='{
+        "projects": [{
+            "title": "KaDoIn",
+            "description": "KaDoIn adalah aplikasi android untuk latihan bahasa inggris yang dilengkapi gambar, suara, teks bahasa inggris &amp; indonesia. Dibangun menggunakan Kotlin Compose (front-end) dan PHP Laravel dengan MySQL (back-end).",
+            "images": ["img/kadoin.png"],
+            "github": "https://github.com/akhsaul/KaDoIn",
+            "demo": null,
+            "techstack": ["Kotlin", "Laravel", "MySQL"]
+        },
+        {
+            "title": "Dicoding Event",
+            "description": "Dicoding Event adalah aplikasi android untuk menjelajah, menyimpan acara favorit, dan mendapatkan pengingat acara Dicoding yang akan datang dengan mudah. Dibangun menggunakan Kotlin Compose (front-end) dan Dicoding API.",
+            "images": ["img/dicoding_event_1.png", "img/dicoding_event_2.png", "img/dicoding_event_3.png", "img/dicoding_event_4.png", "img/dicoding_event_5.png", "img/dicoding_event_6.png"],
+            "github": "https://github.com/akhsaul/DEvent",
+            "demo": null,
+            "techstack": ["Kotlin"]
+        },
+        {
+            "title": "Bookshelf",
+            "description": "Bookshelf adalah Aplikasi web untuk mengatur koleksi buku pribadi Anda. Tambah, cari, hapus, dan ubah status baca buku dengan mudah. Dibangun menggunakan Javascript dan Local Storage untuk penyimpanan data.",
+            "images": ["img/bookshelf.png"],
+            "github": "https://github.com/akhsaul/Bookshelf-App",
+            "demo": "https://bookshelf-app-akhsaul.netlify.app",
+            "techstack": ["JavaScript"]
+        },
+        {
+            "title": "Congklak",
+            "description": "Congklak adalah Game Congklak dengan arsitektur client-server dengan API Java Spring Boot sebagai pusat logika game dan algoritma AI bot, diakses oleh klien Desktop (Java Swing) dan Web (Javascript).",
+            "images": ["img/congklak.png"],
+            "github": "https://github.com/akhsaul/Congklak-Game",
+            "demo": null,
+            "techstack": ["Java", "SpringBoot", "JavaScript"]
+        },
+        {
+            "title": "BrainExpert System",
+            "description": "BrainExpert System adalah sistem pakar berbasis web untuk membantu diagnosis tumor otak menggunakan algoritma Certainty Factor. Dibangun dengan Laravel dan MySQL.",
+            "images": ["img/brain_expert_system.png"],
+            "github": null,
+            "demo": null,
+            "techstack": ["Laravel", "MySQL"]
+        },
+        {
+            "title": "Sentinel Spud",
+            "description": "Sentinel Spud adalah aplikasi monitoring kesehatan daun kentang yang membantu deteksi dini penyakit melalui analisis gambar berbasis AI (Python, OpenCV, TensorFlow, CNN).",
+            "images": ["img/sentinel_spud.png"],
+            "github": null,
+            "demo": null,
+            "techstack": ["Python", "CNN"]
+        },
+        {
+            "title": "LINE Bot",
+            "description": "LINE Bot adalah aplikasi backend yang dibangun dengan Java Spring Boot dan LINE webhook, terintegrasi dengan The Movie DB API untuk menyajikan informasi film dan serial TV populer.",
+            "images": ["img/line_bot.png"],
+            "github": null,
+            "demo": null,
+            "techstack": ["Java", "Kotlin"]
+        }]}'
+      >
+        <div class="title">
+          <h1>Project</h1>
+        </div>
+        <div class="project-wrapper">
+          <div class="project-content container">
+            <article>
+              <div class="card">
+                {{images}}
+                <div class="card-body">
+                  <h5 class="card-title">{{title}}</h5>
+                  <p class="card-text">{{description}}</p>
+                </div>
+                <div class="card-footer">
+                  <p>{{techstack}}</p>
+                  <p>{{other}}</p>
+                </div>
+              </div>
+            </article>
+          </div>
+          <aside class="profile-content container">
+            <div class="card">
+              <div class="card-header">
+                <img src="img/profile.jpg" alt="Ikhsan Maulana" />
+              </div>
+              <div class="card-body">
+                <h2>Ikhsan Maulana</h2>
+                <p>
+                  <i class="bi bi-geo-alt-fill"></i>
+                  Kabupaten Karawang, Jawa Barat, Indonesia
+                </p>
+                <p>
+                  <i class="bi bi-linkedin"></i>
                   <a
-                    class="link-primary link-opacity-50-hover"
-                    href="https://github.com/akhsaul/KaDoIn"
-                    >Github</a
+                    href="https://www.linkedin.com/in/ikhsanmaulana29/"
+                    target="_blank"
                   >
+                    in/ikhsanmaulana29
+                  </a>
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Dicoding Event</h5>
-              <p class="card-text">
-                Dicoding Event adalah aplikasi android untuk menjelajah,
-                menyimpan acara favorit, dan mendapatkan pengingat acara
-                Dicoding yang akan datang dengan mudah. Dibangun menggunakan
-                Kotlin Compose (front-end) dan Dicoding API.
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Kotlin</p>
-                <p class="mb-0 w-auto">
+                <p>
                   <i class="bi bi-github"></i>
-                  <a
-                    class="link-primary link-opacity-50-hover"
-                    href="https://github.com/akhsaul/DEvent"
-                    >Github</a
-                  >
+                  <a href="https://github.com/akhsaul" target="_blank">
+                    akhsaul
+                  </a>
+                </p>
+                <p>
+                  <i class="bi bi-envelope-fill"></i>
+                  <a href="mailto:ikhsanmaulana384@gmail.com" target="_blank">
+                    ikhsanmaulana384@gmail.com
+                  </a>
                 </p>
               </div>
             </div>
-          </div>
+          </aside>
         </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Bookshelf</h5>
-              <p class="card-text">
-                Bookshelf adalah Aplikasi web untuk mengatur koleksi buku
-                pribadi Anda. Tambah, cari, hapus, dan ubah status baca buku
-                dengan mudah. Dibangun menggunakan Javascript dan Local Storage
-                untuk penyimpanan data.
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Javascript</p>
-                <p class="mb-0 w-auto">
-                  <i class="bi bi-browser-chrome"></i>
-                  <a
-                    class="link-primary link-opacity-50-hover"
-                    href="https://bookshelf-app-akhsaul.netlify.app"
-                    >Demo</a
-                  >
-                  <i class="bi bi-github"></i>
-                  <a
-                    class="link-primary link-opacity-50-hover"
-                    href="https://github.com/akhsaul/Bookshelf-App"
-                    >Github</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Congklak</h5>
-              <p class="card-text">
-                Congklak adalah Game Congklak dengan arsitektur client-server
-                dengan API Java Spring Boot sebagai pusat logika game dan
-                algoritma AI bot, diakses oleh klien Desktop (Java Swing) dan
-                Web (Javascript).
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Java, Javascript</p>
-                <p class="mb-0 w-auto">
-                  <i class="bi bi-github"></i>
-                  <a
-                    class="link-primary link-opacity-50-hover"
-                    href="https://github.com/akhsaul/Congklak-Game"
-                    >Github</a
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">BrainExpert System</h5>
-              <p class="card-text">
-                BrainExpert System adalah sistem pakar berbasis web untuk
-                membantu diagnosis tumor otak menggunakan algoritma Certainty
-                Factor. Dibangun dengan Laravel dan MySQL.
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Laravel, MySQL</p>
-                <p class="mb-0 w-auto">
-                  <i class="bi bi-github"></i>
-                  Closed Source
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Sentinel Spud</h5>
-              <p class="card-text">
-                Sentinel Spud adalah aplikasi monitoring kesehatan daun kentang
-                yang membantu deteksi dini penyakit melalui analisis gambar
-                berbasis AI (Python, OpenCV, TensorFlow, CNN).
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Python</p>
-                <p class="mb-0 w-auto">
-                  <i class="bi bi-github"></i>
-                  Closed Source
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card">
-            <div class="card-header">
-              <div class="img-placeholder"></div>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">LINE Bot</h5>
-              <p class="card-text">
-                LINE Bot adalah aplikasi backend yang dibangun dengan Java
-                Spring Boot dan LINE webhook, terintegrasi dengan The Movie DB
-                API untuk menyajikan informasi film dan serial TV populer.
-              </p>
-            </div>
-            <div class="card-footer">
-              <div class="row justify-content-between">
-                <p class="mb-0 w-auto">Java, Kotlin</p>
-                <p class="mb-0 w-auto">
-                  <i class="bi bi-github"></i>
-                  Closed Source
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </section>
+    </main>
+    <footer>
+      <p>© 2025 Ikhsan Maulana</p>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha256-ORBCb//WwUWwNh+EjsvO97snO3mAJ1+jhMzrlPBTYSQ="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Shared Function -->
+    <script src="js/shared.js"></script>
+    <!-- Auto Generate Card for Project list -->
+    <script src="js/generator.js"></script>
+    <!-- Hamburger Function -->
+    <script src="js/hamburger.js"></script>
+    <!-- Scroll Spy Function -->
+    <script src="js/scroll.js"></script>
+    <!-- Carousel Image Function -->
+    <script src="js/carousel.js"></script>
   </body>
-  <footer class="text-center bg-light py-4">
-    <p class="mb-0">&copy; 2025 Ikhsan Maulana</p>
-  </footer>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-    crossorigin="anonymous"
-  ></script>
 </html>
