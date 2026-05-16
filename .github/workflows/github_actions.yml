@@ -26,8 +26,10 @@ jobs:
         with:
           repository: ${{ secrets.GIT_PRIVATE_REPO }}
           ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
-          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }} # specific branch
-          path: private-repo  # the data will store in folder `private-repo`
+          # specific branch
+          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }}
+          # the data will store in folder `private-repo`
+          path: private-repo
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -51,10 +53,15 @@ jobs:
         run: cd private-repo && flutter test
         
       - name: Build Release APK
-        run: cd private-repo && flutter build apk --release
+        # targets:
+        #   app-armeabi-v7a-release.apk for old gadget
+        #   app-arm64-v8a-release.apk for modern gadget
+        #   app-x86_64-release.apk  for emulator
+        run: cd private-repo && flutter build apk --release --target-platform android-arm,android-arm64,android-x64 --split-per-abi
         
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          path: cd private-repo && build/app/outputs/flutter-apk/app-release.apk
+          # only take a path
+          path: private-repo/build/app/outputs/flutter-apk/*-release.apk
