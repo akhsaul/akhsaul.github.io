@@ -1,0 +1,60 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [ flutter-restaurant-app ]
+  pull_request:
+    branches: [ flutter-restaurant-app ]
+
+jobs:
+  build:
+    name: Analyze, Test, and Build
+    runs-on: ubuntu-latest
+    environment: test-and-build
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # can be use for other purpose like flutter pub get, etc
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+
+      - name: Checkout Private Repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.GIT_PRIVATE_REPO }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ref: "${{ vars.GIT_PRIVATE_REPO_BRANCH }}" # specific branch
+          path: private-repo  # the data will store in folder `private-repo`
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+          
+      - name: Install Dependencies
+        run: cd private-repo && flutter pub get
+        
+      - name: Flutter Analyze
+        run: cd private-repo && flutter analyze
+        
+      - name: Flutter Test
+        run: cd private-repo && flutter test
+        
+      - name: Build Release APK
+        run: cd private-repo && flutter build apk --release
+        
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: cd private-repo && build/app/outputs/flutter-apk/app-release.apk
