@@ -25,8 +25,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.GIT_PRIVATE_REPO }}
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ref: "${{ vars.GIT_PRIVATE_REPO_BRANCH }}" # specific branch
+          ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }} # specific branch
           path: private-repo  # the data will store in folder `private-repo`
 
       - name: Setup Java
