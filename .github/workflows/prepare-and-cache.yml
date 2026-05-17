@@ -1,10 +1,11 @@
 name: Cache Preparation
+
 on:
   push:
     branches: [ flutter-restaurant-app ]
     paths:
       - '.github/workflows/prepare-and-cache.yml'
-    # Manual action with button in Github UI
+  # Manual action with button in Github UI
   workflow_dispatch:
 
 env:
@@ -21,6 +22,7 @@ env:
   # see https://github.com/actions/setup-java/raw/refs/heads/main/docs/advanced-usage.md
   JAVA_VARIANT: ${{ vars.JAVA_VARIANT || 'jdk' }}
   FLUTTER_CHANNEL: ${{ vars.FLUTTER_CHANNEL || 'stable' }}
+  # will be override it with dynamic value
   AVD_CACHE_KEY: ''
 
 jobs:
