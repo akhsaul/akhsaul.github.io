@@ -32,6 +32,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: test-and-build
     steps:
+      - name: System Specs
+        run: |
+          echo "CPU Cores: $(nproc)"
+          echo "Memory:"
+          free -h
+          echo "Disk Space:"
+          df -h /
+
       - name: Set dynamic env
         run: |
           echo "AVD_CACHE_KEY=avd-${{ env.AVD_NAME }}-${{ env.EMULATOR_PROFILE }}-${{ env.ANDROID_API_LEVEL }}-${{ env.ANDROID_IMAGE }}-${{ env.ANDROID_ARCH }}" >> $GITHUB_ENV
