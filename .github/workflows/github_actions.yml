@@ -47,8 +47,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           distribution: 'temurin'
-          # much smaller, only 141MB
-          java-version: '25'
+          # much smaller, only 207MB
+          java-version: '21'
           # see https://github.com/actions/setup-java/raw/refs/heads/main/docs/advanced-usage.md
           java-package: 'jdk'
       - run: java --version          
