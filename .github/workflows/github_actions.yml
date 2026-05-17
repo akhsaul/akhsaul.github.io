@@ -11,6 +11,10 @@ jobs:
     name: Analyze, Test, and Build
     runs-on: ubuntu-latest
     environment: test-and-build
+    env:
+      android-api-level: '36'
+      android-image: 'google_apis'
+      android-image-arch: 'x86_64'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -70,9 +74,9 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           # android 16
-          api-level: '36'
-          target: 'google_apis_ps16k'
-          arch: 'x86_64'
+          api-level: ${{ env.android-api-level }}
+          target: ${{ env.android-image }}
+          arch: ${{ env.android-image-arch }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -99,9 +103,9 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           # android 16
-          api-level: '36'
-          target: 'google_apis_ps16k'
-          arch: 'x86_64'
+          api-level:  ${{ env.android-api-level }}
+          target:  ${{ env.android-image }}
+          arch: ${{ env.android-image-arch }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
