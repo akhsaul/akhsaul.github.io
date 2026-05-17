@@ -6,25 +6,90 @@ on:
   pull_request:
     branches: [ flutter-restaurant-app ]
 
+env:
+  # Global configuration for consistency across jobs
+  EMULATOR_PROFILE: 'pixel'
+  # use Android 16.0 ("Baklava")
+  ANDROID_API_LEVEL: '36'
+  ANDROID_IMAGE: 'google_apis'
+  ANDROID_ARCH: 'x86_64'
+  AVD_NAME: 'test'
+  # include all configuration
+  AVD_CACHE_KEY: 'avd-test-pixel-36-google_apis-x86_64'
+  JAVA_VERSION: '21'
+  # much smaller, only 207MB for temurin-jdk-21
+  JAVA_DISTRO: 'temurin'
+  # see https://github.com/actions/setup-java/raw/refs/heads/main/docs/advanced-usage.md
+  JAVA_VARIANT: 'jdk'
+  FLUTTER_CHANNEL: 'stable'
+
 jobs:
-  build:
-    name: Analyze, Test, and Build
+  # JOB 1: Cache Preparation, running in different machine/runner!
+  prepare-and-cache:
+    name: Prepare Cache
     runs-on: ubuntu-latest
     environment: test-and-build
-    env:
-      emulator-profile-hardware: 'pixel'
-      # use Android 16.0 ("Baklava")
-      android-api-level: '36'
-      android-image: 'google_apis'
-      android-image-arch: 'x86_64'
-      avd-name: 'test'
-      # include all configuration
-      avd-cache-key: 'avd-test-pixel-36-google_apis-x86_64'
+    steps:
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{ env.JAVA_DISTRO }}
+          java-version: ${{ env.JAVA_VERSION }}
+          java-package: ${{ env.JAVA_VARIANT }}
+
+        # save gradle cache (library, configuration, etc)
+      - name: Setup Gradle Cache
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+        # save Android Virtual Device
+      - name: AVD Cache
+        uses: actions/cache@v5
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: ${{ env.AVD_CACHE_KEY }}
+
+      - name: Create AVD Snapshot (if no cache)
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ env.ANDROID_API_LEVEL }}
+          profile: ${{ env.EMULATOR_PROFILE }}
+          target: ${{ env.ANDROID_IMAGE }}
+          arch: ${{ env.ANDROID_ARCH }}
+          avd-name: ${{ env.AVD_NAME }}
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          disable-spellchecker: false
+          script: |
+            flutter doctor -v
+            echo "AVD snapshot created and cached."
+
+  # JOB 2: Task Execution (Analyze, Unit Test, Integration Test, and Build)
+  run-tasks:
+    name: Analyze, Test, and Build
+    needs: prepare-and-cache
+    runs-on: ubuntu-latest
+    environment: test-and-build
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
 
-      # can be use for other purpose like flutter pub get, etc
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -35,7 +100,6 @@ jobs:
         with:
           repository: ${{ secrets.GIT_PRIVATE_REPO }}
           ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
-          # specific branch
           ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }}
           fetch-depth: 2
           # the data will store in folder `private-repo`
@@ -43,94 +107,69 @@ jobs:
 
       - name: Setup Java
         uses: actions/setup-java@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          distribution: 'temurin'
-          # much smaller, only 207MB
-          java-version: '21'
-          # see https://github.com/actions/setup-java/raw/refs/heads/main/docs/advanced-usage.md
-          java-package: 'jdk'
-      - run: java --version          
-        
+          distribution: ${{ env.JAVA_DISTRO }}
+          java-version: ${{ env.JAVA_VERSION }}
+          java-package: ${{ env.JAVA_VARIANT }}
+
+      - name: Setup Gradle (Restore Cache)
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Setup Flutter (Restore Cache)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
-        # save gradle cache (library, configuration, etc)
-      - name: Gradle cache
-        uses: gradle/actions/setup-gradle@v5
-
-        # save Android Virtual Device
-      - name: AVD cache
+      - name: Restore AVD Cache
         uses: actions/cache@v5
-        id: avd-cache
         with:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: ${{ env.avd-cache-key }}
+          key: ${{ env.AVD_CACHE_KEY }}
 
-        # generate AVD snapshots if it was no cache
-      - name: create AVD and generate snapshot for caching
-        if: steps.avd-cache.outputs.cache-hit != 'true'
+      - name: Flutter Analyze & Unit Test
+        run: |
+          cd private-repo
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - name: Run Integration Test (on Emulator)
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ env.android-api-level }}
-          profile: ${{ env.emulator-profile-hardware }}
-          target: ${{ env.android-image }}
-          arch: ${{ env.android-image-arch }}
-          avd-name: ${{ env.avd-name }}
-          force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
-          disable-spellchecker: false
-          script: echo "Generated AVD snapshot for caching..."
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-      - run: flutter doctor
-          
-      - name: Install Dependencies
-        run: cd private-repo && flutter pub get
-        
-      - name: Flutter Analyze
-        run: cd private-repo && flutter analyze
-        
-      - name: Flutter Test
-        run: cd private-repo && flutter test
-
-      - name: Run Integration Test
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ env.android-api-level }}
-          profile: ${{ env.emulator-profile-hardware }}
-          target: ${{ env.android-image }}
-          arch: ${{ env.android-image-arch }}
-          avd-name: ${{ env.avd-name }}
+          api-level: ${{ env.ANDROID_API_LEVEL }}
+          profile: ${{ env.EMULATOR_PROFILE }}
+          target: ${{ env.ANDROID_IMAGE }}
+          arch: ${{ env.ANDROID_ARCH }}
+          avd-name: ${{ env.AVD_NAME }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           disable-spellchecker: true
           script: |
+            cd private-repo
             flutter doctor -v
-            cd private-repo && flutter test integration_test/app_test.dart
-        
+            flutter test integration_test/app_test.dart
+
       - name: Build Release APK
         # targets:
         #   app-armeabi-v7a-release.apk for old gadget
         #   app-arm64-v8a-release.apk for modern gadget
         #   app-x86_64-release.apk  for emulator
-        run: cd private-repo && flutter build apk --release --target-platform android-arm,android-arm64,android-x64 --split-per-abi
-        
+        run: |
+          cd private-repo
+          flutter build apk --release --target-platform android-arm,android-arm64,android-x64 --split-per-abi
+
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
-          # only take a path
           path: private-repo/build/app/outputs/flutter-apk/*-release.apk
