@@ -17,7 +17,9 @@ jobs:
       android-api-level: '36'
       android-image: 'google_apis'
       android-image-arch: 'x86_64'
-      avd-cache-key: 'avd-profile-pixel'
+      avd-name: 'test'
+      # include all configuration
+      avd-cache-key: 'avd-test-pixel-36-google_apis-x86_64'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -80,6 +82,7 @@ jobs:
           profile: ${{ env.emulator-profile-hardware }}
           target: ${{ env.android-image }}
           arch: ${{ env.android-image-arch }}
+          avd-name: ${{ env.avd-name }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -91,7 +94,7 @@ jobs:
         with:
           channel: 'stable'
           cache: true
-      - run: flutter doctor -v
+      - run: flutter doctor
           
       - name: Install Dependencies
         run: cd private-repo && flutter pub get
@@ -109,11 +112,14 @@ jobs:
           profile: ${{ env.emulator-profile-hardware }}
           target: ${{ env.android-image }}
           arch: ${{ env.android-image-arch }}
+          avd-name: ${{ env.avd-name }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           disable-spellchecker: true
-          script: flutter test integration_test/app_test.dart
+          script: |
+            flutter doctor -v
+            cd private-repo && flutter test integration_test/app_test.dart
         
       - name: Build Release APK
         # targets:
