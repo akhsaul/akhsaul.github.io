@@ -98,6 +98,11 @@ jobs:
           flutter analyze
           flutter test
 
+      - name: Build Debug APK
+        run: |
+          cd private-repo
+          flutter build apk --debug --target-platform android-x64
+
       - name: Run Integration Test (on Emulator)
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -110,7 +115,8 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           disable-spellchecker: true
-          script: cd private-repo && flutter doctor -v && flutter test integration_test/app_test.dart
+          working-directory: 'private-repo'
+          script: flutter doctor -v && flutter test integration_test/app_test.dart
 
       - name: Build Release APK
         # targets:

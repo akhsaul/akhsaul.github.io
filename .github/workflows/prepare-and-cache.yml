@@ -68,16 +68,6 @@ jobs:
             ~/.android/adb*
           key: ${{ env.AVD_CACHE_KEY }}
 
-      - name: Checkout Sample Repo
-        uses: actions/checkout@v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          repository: 'flutter/samples'
-          fetch-depth: 2
-          # the data will store in folder `private-repo`
-          path: flutter-sample
-
       - name: Create AVD Snapshot (if no cache)
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
@@ -91,5 +81,4 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           disable-spellchecker: false
-          working-directory: 'flutter-sample/material_3_demo'
-          script: flutter doctor -v && flutter build apk && echo "AVD snapshot created and cached."
+          script: flutter doctor -v && echo "AVD snapshot created and cached."
