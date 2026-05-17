@@ -1,0 +1,120 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches: [ flutter-restaurant-app ]
+    paths:
+      - '.github/workflows/github_actions.yml'
+  # Manual action with button in Github UI
+  workflow_dispatch:
+  #pull_request:
+  #  branches: [ flutter-restaurant-app ]
+
+env:
+  # Global configuration for consistency across jobs
+  EMULATOR_PROFILE: 'pixel'
+  # use Android 16.0 ("Baklava")
+  ANDROID_API_LEVEL: ${{ vars.ANDROID_API_LEVEL || '36' }}
+  ANDROID_IMAGE: ${{ vars.ANDROID_IMAGE || 'google_apis' }}
+  ANDROID_ARCH: ${{ vars.ANDROID_ARCH || 'x86_64' }}
+  AVD_NAME: 'test'
+  JAVA_VERSION: ${{ vars.JAVA_VERSION || '21' }}
+  # much smaller, only 207MB for temurin-jdk-21
+  JAVA_DISTRO: ${{ vars.JAVA_DISTRO || 'temurin' }}
+  # see https://github.com/actions/setup-java/raw/refs/heads/main/docs/advanced-usage.md
+  JAVA_VARIANT: ${{ vars.JAVA_VARIANT || 'jdk' }}
+  FLUTTER_CHANNEL: ${{ vars.FLUTTER_CHANNEL || 'stable' }}
+  AVD_CACHE_KEY: ''
+
+jobs:
+  build:
+    name: Analyze, Test, and Build
+    runs-on: ubuntu-latest
+    environment: test-and-build
+    steps:
+      - name: Set dynamic env
+        run: |
+          echo "AVD_CACHE_KEY=avd-${{ env.AVD_NAME }}-${{ env.EMULATOR_PROFILE }}-${{ env.ANDROID_API_LEVEL }}-${{ env.ANDROID_IMAGE }}-${{ env.ANDROID_ARCH }}" >> $GITHUB_ENV
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+
+      - name: Checkout Private Repo
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ secrets.GIT_PRIVATE_REPO }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }}
+          fetch-depth: 2
+          # the data will store in folder `private-repo`
+          path: private-repo
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{ env.JAVA_DISTRO }}
+          java-version: ${{ env.JAVA_VERSION }}
+          java-package: ${{ env.JAVA_VARIANT }}
+
+      - name: Setup Gradle (Restore Cache)
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Setup Flutter (Restore Cache)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Restore AVD Cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: ${{ env.AVD_CACHE_KEY }}
+
+      - name: Flutter Analyze & Unit Test
+        run: |
+          cd private-repo
+          flutter pub get
+          flutter analyze
+          flutter test
+
+      - name: Run Integration Test (on Emulator)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ env.ANDROID_API_LEVEL }}
+          profile: ${{ env.EMULATOR_PROFILE }}
+          target: ${{ env.ANDROID_IMAGE }}
+          arch: ${{ env.ANDROID_ARCH }}
+          avd-name: ${{ env.AVD_NAME }}
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          disable-spellchecker: true
+          script: cd private-repo && flutter doctor -v && flutter test integration_test/app_test.dart
+
+      - name: Build Release APK
+        # targets:
+        #   app-armeabi-v7a-release.apk for old gadget
+        #   app-arm64-v8a-release.apk for modern gadget
+        #   app-x86_64-release.apk  for emulator
+        run: |
+          cd private-repo
+          flutter build apk --release --target-platform android-arm,android-arm64,android-x64 --split-per-abi
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-apk
+          path: private-repo/build/app/outputs/flutter-apk/*-release.apk
