@@ -70,7 +70,7 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           # android 16
-          api-level: 'Baklava'
+          api-level: '36'
           target: 'google_apis_ps16k'
           arch: 'x86_64'
           force-avd-creation: false
