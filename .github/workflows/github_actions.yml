@@ -12,10 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: test-and-build
     env:
-      # already use Android 16.0 ("Baklava") Tag/ABI: google_apis_playstore/x86_64
-      emulator-profile: 'pixel'
-      # still required for android-emulator-runner
+      emulator-profile-hardware: 'pixel'
+      # use Android 16.0 ("Baklava")
       android-api-level: '36'
+      android-image: 'google_apis'
+      android-image-arch: 'x86_64'
       avd-cache-key: 'avd-profile-pixel'
     steps:
       - name: Checkout Code
@@ -76,7 +77,9 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ env.android-api-level }}
-          profile: ${{ env.emulator-profile }}
+          profile: ${{ env.emulator-profile-hardware }}
+          target: ${{ env.android-image }}
+          arch: ${{ env.android-image-arch }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -103,7 +106,9 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ env.android-api-level }}
-          profile: ${{ env.emulator-profile }}
+          profile: ${{ env.emulator-profile-hardware }}
+          target: ${{ env.android-image }}
+          arch: ${{ env.android-image-arch }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
