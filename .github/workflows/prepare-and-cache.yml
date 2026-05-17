@@ -1,5 +1,4 @@
-name: Flutter CI/CD
-
+name: Cache Preparation
 on:
   push:
     branches: [ flutter-restaurant-app ]
