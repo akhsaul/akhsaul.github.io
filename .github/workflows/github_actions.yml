@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: test-and-build
     env:
-      android-api-level: '36'
-      android-image: 'google_apis'
-      android-image-arch: 'x86_64'
+      # already use Android 16.0 ("Baklava") Tag/ABI: google_apis_playstore/x86_64
+      emulator-profile: 'pixel'
+      avd-cache-key: 'avd-profile-pixel'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
@@ -66,17 +66,14 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
+          key: ${{ env.avd-cache-key }}
 
         # generate AVD snapshots if it was no cache
       - name: create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          # android 16
-          api-level: ${{ env.android-api-level }}
-          target: ${{ env.android-image }}
-          arch: ${{ env.android-image-arch }}
+          profile: ${{ env.emulator-profile }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
@@ -102,10 +99,7 @@ jobs:
       - name: Run Integration Test
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          # android 16
-          api-level:  ${{ env.android-api-level }}
-          target:  ${{ env.android-image }}
-          arch: ${{ env.android-image-arch }}
+          profile: ${{ env.emulator-profile }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
