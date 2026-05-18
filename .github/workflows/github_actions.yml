@@ -103,7 +103,7 @@ jobs:
           cd private-repo
           flutter build apk --debug --target-platform android-x64
 
-      - name: Run Integration Test (on Emulator)
+      - name: Run Integration Test & Capture Notification
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ env.ANDROID_API_LEVEL }}
@@ -116,7 +116,26 @@ jobs:
           disable-animations: true
           disable-spellchecker: true
           working-directory: 'private-repo'
-          script: flutter doctor -v && flutter test integration_test/app_test.dart
+          script: |
+            # Run specific test to trigger notification
+            flutter test integration_test/app_test.dart --name="Scenario 5"
+
+            # Pull down notification shade to see the notification clearly
+            adb shell service call statusbar 1
+            sleep 2
+
+            # Take screenshot
+            adb shell screencap -p /sdcard/notif_verify.png
+            adb pull /sdcard/notif_verify.png .
+
+            # Close notification shade
+            adb shell service call statusbar 2
+
+      - name: Upload Notification Screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: notification-verification
+          path: private-repo/notif_verify.png
 
       - name: Build Release APK
         # targets:
