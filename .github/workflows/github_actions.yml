@@ -51,6 +51,16 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
 
+      - name: Checkout Private Repo
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ secrets.GIT_PRIVATE_REPO }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }}
+          fetch-depth: 2
+          # the data will store in folder `private-repo`
+          path: private-repo
+
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -81,15 +91,7 @@ jobs:
             ~/.android/adb*
           key: ${{ env.AVD_CACHE_KEY }}
 
-      - name: Checkout Private Repo
-        uses: actions/checkout@v6
-        with:
-          repository: ${{ secrets.GIT_PRIVATE_REPO }}
-          ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
-          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }}
-          fetch-depth: 2
-          # the data will store in folder `private-repo`
-          path: private-repo
+      - name: Flutter Resolve Dependencies
         run: |
           cd private-repo
           flutter pub get
@@ -97,7 +99,7 @@ jobs:
       - name: Flutter Analyze & Unit Test
         run: |
           cd private-repo
-          flutter pub get
+          dart format .
           flutter analyze
           flutter test
 
