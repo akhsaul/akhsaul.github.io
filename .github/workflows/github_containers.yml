@@ -12,7 +12,7 @@ env:
   IMAGE_NAME: ${{ github.repository_owner }}/money-tracker-backend
 
 jobs:
-  build-and-push:
+  money-tracker-backend:
     runs-on: ubuntu-latest
     environment: test-and-build
     permissions:
@@ -20,9 +20,6 @@ jobs:
       packages: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
       - name: Checkout Private Repo
         uses: actions/checkout@v6
         with:
@@ -30,8 +27,6 @@ jobs:
           ssh-key: ${{ secrets.SSH_NODEJS_MONEY_TRACKER_REPO }}
           ref: ${{ vars.NODEJS_MONEY_TRACKER_REPO_BRANCH }}
           fetch-depth: 2
-          # the data will store in folder `money-tracker-backend`
-          path: money-tracker-backend
 
       - name: Log in to the Container registry
         uses: docker/login-action@v4
@@ -40,26 +35,19 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get Private Repo SHA
-        id: private_sha
-        run: |
-          cd money-tracker-backend
-          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest,enable=${{ steps.private_sha.outputs.sha != null }}
-            type=raw,value=${{ steps.private_sha.outputs.sha }}
+            type=raw,value=latest,enable=${{ github.event_name != 'pull_request' }}
+            type=sha,format=short
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
         with:
-          context: ./money-tracker-backend
-          file: ./money-tracker-backend/Dockerfile.local
+          file: ./Dockerfile.local
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
