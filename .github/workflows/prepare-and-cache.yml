@@ -2,7 +2,7 @@ name: Cache Preparation
 
 on:
   push:
-    branches: [ flutter-restaurant-app ]
+    branches: [ main ]
     paths:
       - '.github/workflows/prepare-and-cache.yml'
   # Manual action with button in Github UI

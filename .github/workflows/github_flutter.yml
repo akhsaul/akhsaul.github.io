@@ -4,7 +4,7 @@ on:
   push:
     branches: [ flutter-restaurant-app ]
     paths:
-      - '.github/workflows/github_actions.yml'
+      - '.github/workflows/github_flutter.yml'
   # Manual action with button in Github UI
   workflow_dispatch:
   #pull_request:
@@ -54,9 +54,9 @@ jobs:
       - name: Checkout Private Repo
         uses: actions/checkout@v6
         with:
-          repository: ${{ secrets.GIT_PRIVATE_REPO }}
+          repository: ${{ secrets.FLUTTER_RESTAURANT_REPO }}
           ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
-          ref: ${{ vars.GIT_PRIVATE_REPO_BRANCH }}
+          ref: ${{ vars.FLUTTER_RESTAURANT_REPO_BRANCH }}
           fetch-depth: 2
           # the data will store in folder `private-repo`
           path: private-repo

@@ -1,0 +1,59 @@
+name: Build and Push to GHCR
+
+on:
+  push:
+    branches: [ nodejs-money-tracker-backend ]
+    paths:
+      - '.github/workflows/github_containers.yml'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/money-tracker-backend
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    environment: test-and-build
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Checkout Private Repo
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ secrets.NODEJS_MONEY_TRACKER_REPO }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+          ref: ${{ vars.NODEJS_MONEY_TRACKER_REPO_BRANCH }}
+          fetch-depth: 2
+          # the data will store in folder `money-tracker-backend`
+          path: money-tracker-backend
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=sha,format=short
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v7
+        with:
+          context: ./money-tracker-backend
+          file: ./money-tracker-backend/Dockerfile.local
+          push: true
+          tags: ${{ id.meta.outputs.tags }}
+          labels: ${{ id.meta.outputs.labels }}
