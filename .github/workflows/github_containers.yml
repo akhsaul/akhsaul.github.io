@@ -41,6 +41,8 @@ jobs:
         with:
           context: git
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          labels: |
+               org.opencontainers.image.title=money-tracker-backend
           tags: |
             type=raw,value=latest,enable=${{ github.event_name != 'pull_request' }}
             type=sha,format=short
