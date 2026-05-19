@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: ${{ secrets.FLUTTER_RESTAURANT_REPO }}
-          ssh-key: ${{ secrets.SSH_PRIVATE_GITHUB_REPO }}
+          ssh-key: ${{ secrets.SSH_FLUTTER_RESTAURANT_REPO }}
           ref: ${{ vars.FLUTTER_RESTAURANT_REPO_BRANCH }}
           fetch-depth: 2
           # the data will store in folder `private-repo`
