@@ -44,18 +44,16 @@ jobs:
         id: private_sha
         run: |
           cd money-tracker-backend
-          echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # move to folder money-tracker-backend
-          context: git:money-tracker-backend
           tags: |
             type=raw,value=latest,enable=${{ steps.private_sha.outputs.sha != null }}
-            type=sha,format=short
+            type=raw,value=${{ steps.private_sha.outputs.sha }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
