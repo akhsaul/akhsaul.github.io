@@ -19,4 +19,4 @@ jobs:
         free -h
         echo "Disk Space:"
         df -h /
-        top
+        vmstat 1 2
