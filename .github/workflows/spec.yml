@@ -1,4 +1,4 @@
-name: Build and Push to GHCR
+name: Check system Specs
 
 on:
   push:
@@ -13,9 +13,8 @@ jobs:
     steps:
     - name: System Specs
       run: |
-        cat /proc/cpuinfo | egrep -m 1 "^model name"
-        cat /proc/cpuinfo | egrep -m 1 "^cpu MHz"
-        cat /proc/cpuinfo | egrep -m 1 "^cpu cores"
+        lscpu
+        cat /proc/cpuinfo
         echo "Memory:"
         free -h
         echo "Disk Space:"
