@@ -19,3 +19,4 @@ jobs:
         free -h
         echo "Disk Space:"
         df -h /
+        top
