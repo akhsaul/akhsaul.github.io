@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - '.github/workflows/deepnote_images.yml'
+      - './DeepnoteDockerfile'
   workflow_dispatch:
 
 env:
@@ -12,7 +13,7 @@ env:
   IMAGE_NAME: ${{ github.repository_owner }}/deepnote-dicoding-msml
 
 jobs:
-  money-tracker-backend:
+  build-push:
     runs-on: ubuntu-latest
     environment: test-and-build
     permissions:
