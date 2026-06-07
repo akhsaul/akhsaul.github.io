@@ -1,0 +1,5 @@
+FROM deepnote/python:3.12
+
+RUN pip install --upgrade pip
+
+RUN pip install --upgrade mlflow==2.19.0 matplotlib pandas scikit-learn seaborn joblib dagshub mlflow-skinny mlflow-tracing optuna optuna-integration[mlflow] fastapi prometheus-client pydantic requests uvicorn numpy
