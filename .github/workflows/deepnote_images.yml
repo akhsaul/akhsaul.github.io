@@ -5,7 +5,7 @@ on:
     branches: [ main ]
     paths:
       - '.github/workflows/deepnote_images.yml'
-      - './DeepnoteDockerfile'
+      - 'DeepnoteDockerfile'
   workflow_dispatch:
 
 env:
