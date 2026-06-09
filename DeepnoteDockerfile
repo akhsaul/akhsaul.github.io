@@ -4,4 +4,6 @@ RUN pip install --upgrade pip
 
 RUN pip install --upgrade matplotlib pandas scikit-learn seaborn joblib fastapi prometheus-client pydantic requests uvicorn numpy -c https://tk.deepnote.com/constraints3.12.txt
 
-RUN pip install --upgrade mlflow==2.19.0 mlflow-skinny mlflow-tracing dagshub optuna optuna-integration[mlflow] ipywidgets -c https://tk.deepnote.com/constraints3.12.txt
+# Deepnote doesn't support `ipywidgets` but collab support it
+# So we don't have to install it for deepnote
+RUN pip install --upgrade mlflow==2.19.0 mlflow-skinny mlflow-tracing dagshub optuna optuna-integration[mlflow] -c https://tk.deepnote.com/constraints3.12.txt
